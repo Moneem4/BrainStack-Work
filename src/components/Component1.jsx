@@ -7,19 +7,15 @@ import React, {
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState([]);
-  const fetchRef = useRef(0);
+  
   const debounceFetcher = useMemo(() => {
     const loadOptions = (value) => {
   
       setOptions([]);
       setFetching(true);
-      const fetchId = fetchRef.current;
+    
       fetchOptions(value).then((newOptions) => {
-         if (fetchId !== fetchRef.current) {
-          // for fetch callback order
-          return;
-        } 
-
+        
         setOptions(newOptions);
         setFetching(false);
       });
