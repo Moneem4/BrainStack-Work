@@ -1,8 +1,9 @@
 import { Select, Spin } from 'antd';
 import debounce from 'lodash/debounce';
+
 import {api} from "../config/params"
 import React, {
-  useState,useMemo,useRef
+  useState,useMemo
 } from 'react';
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
   const [fetching, setFetching] = useState(false);
@@ -36,14 +37,11 @@ function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
 } // Usage of DebounceSelect
 
 async function fetchLocationList(searchText) {
- /*  const result=await axios.get(`https://mvvvip1.defas-fgi.de/mvv/XML_STOPFINDER_REQUEST?%20language=de&outputFormat=RapidJSON&type_sf=any&name_sf=${searchText}`,
-   {
-  mode: 'no-cors',
   
-}).then((response)=>{console.log("response ",response.data);}) */
-const url=api+searchText
+try {
+    const url=api+searchText
   return fetch(url, {
-  mode: 'no-cors',
+  mode: 'no-cors'
   
 })
     .then((response) => response.json())
@@ -51,8 +49,9 @@ const url=api+searchText
      { data.locations.map((loc) => ({
         label: `${loc.name} ${loc.disassembledName}`,
         value: loc.name,
-      }))},
-    );
+      }))
+    });
+}catch(err){console.log("error ",err);}
 }
 
 const Component1 = () => {
@@ -63,12 +62,12 @@ const Component1 = () => {
     <div style={{float:'right',width:400}}>
     <DebounceSelect
      allowClear={true}
-      mode="multiple"
+     mode="multiple"
       value={value}
       placeholder="search location"
       fetchOptions={fetchLocationList}
       onChange={(newValue) => {
-        setValue(newValue);
+     setValue(newValue);
       }}
       style={{
         width: '100%',
