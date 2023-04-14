@@ -5,6 +5,7 @@ import {api} from "../config/params"
 import React, {
   useState,useMemo
 } from 'react';
+
 function DebounceSelect({ fetchOptions, debounceTimeout = 800, ...props }) {
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState([]);
@@ -47,7 +48,7 @@ try {
     .then((response) => response.json())
     .then((data) =>
      { data.locations.map((loc) => ({
-        label: `${loc.name} ${loc.disassembledName}`,
+        label: `${loc.name}`,
         value: loc.name,
       }))
     });
